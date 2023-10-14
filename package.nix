@@ -5,12 +5,14 @@ let
 in pkgs.rustPlatform.buildRustPackage {
   pname = manifest.name;
   version = manifest.version;
+
   cargoLock.lockFile = ./Cargo.lock;
+
   src = ./.;
 
   propagatedBuildInputs = with pkgs; [
     notmuch
-  ];
+  ] ++ pkgs.lib.optional stdenv.isDarwin pkgs.darwin.apple_sdk.frameworks.Security;
 
   meta = with pkgs.lib; {
     description = "JMAP integration for notmuch mail";
