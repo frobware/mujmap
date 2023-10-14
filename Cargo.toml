@@ -2,7 +2,7 @@
 name = "mujmap"
 description = "JMAP integration for notmuch mail"
 authors = ["Eliza Velasquez"]
-version = "0.2.0"
+version = "0.2.0-frobware"
 license = "GPL-3.0"
 keywords = ["notmuch", "mail", "email", "jmap"]
 categories = ["command-line-utilities", "email"]

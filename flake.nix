@@ -1,30 +1,38 @@
 {
   description = "Bridge for synchronizing email and tags between JMAP and notmuch";
+
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
-    cargo2nix.url = "github:cargo2nix/cargo2nix/release-0.11.0";
-    nixpkgs.follows = "cargo2nix/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, flake-utils, cargo2nix }:
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [cargo2nix.overlays.default];
-        };
-        rustPkgs = pkgs.rustBuilder.makePackageSet {
-          rustVersion = "1.61.0";
-          packageFun = import ./Cargo.nix;
-        };
-      in
-      {
-        packages = rec {
-          mujmap = ((rustPkgs.workspace.mujmap {}).overrideAttrs(oa: {
-            propagatedBuildInputs = oa.propagatedBuildInputs ++ [ pkgs.notmuch ];
-          })).bin;
-          
-          default = mujmap;
-        };
-      });
+  outputs = { self, nixpkgs }:
+  let
+    supportedSystems = [
+      "aarch64-darwin"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "x86_64-linux"
+    ];
+
+    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+    pkgsFor = nixpkgs.legacyPackages;
+
+    makeDevShellForSystem = system: {
+      default = pkgsFor.${system}.mkShell {
+        packages = with pkgsFor.${system}; [
+          cargo
+          crate2nix
+          rust-analyzer
+          rustc
+          rustfmt
+        ];
+      };
+    };
+  in {
+    packages = forAllSystems (system: {
+      default = pkgsFor.${system}.callPackage ./package.nix { };
+    });
+
+    devShells = nixpkgs.lib.genAttrs supportedSystems makeDevShellForSystem;
+  };
 }
