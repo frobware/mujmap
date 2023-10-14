@@ -2,7 +2,7 @@
   description = "Bridge for synchronizing email and tags between JMAP and notmuch";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs?rev=e12483116b3b51a185a33a272bf351e357ba9a99";
   };
 
   outputs = { self, nixpkgs }:
