@@ -337,7 +337,7 @@ impl Remote {
 
         let account_id = &self.session.primary_accounts.mail;
         let mut response = self.request(jmap::Request {
-            using: &[jmap::CapabilityKind::Mail],
+            using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
             method_calls: &[
                 jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailGet {
@@ -399,7 +399,7 @@ impl Remote {
         loop {
             let account_id = &self.session.primary_accounts.mail;
             let mut response = self.request(jmap::Request {
-                using: &[jmap::CapabilityKind::Mail],
+                using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
                 method_calls: &[jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailQuery {
                         query: jmap::MethodCallQuery {
@@ -468,7 +468,7 @@ impl Remote {
         loop {
             let account_id = &self.session.primary_accounts.mail;
             let mut response = self.request(jmap::Request {
-                using: &[jmap::CapabilityKind::Mail],
+                using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
                 method_calls: &[jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailChanges {
                         changes: jmap::MethodCallChanges {
@@ -523,7 +523,7 @@ impl Remote {
             let account_id = &self.session.primary_accounts.mail;
             let ids = chunk.collect::<Vec<&Id>>();
             let mut response = self.request(jmap::Request {
-                using: &[jmap::CapabilityKind::Mail],
+                using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
                 method_calls: &[jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailGet {
                         get: jmap::MethodCallGet {
@@ -561,7 +561,7 @@ impl Remote {
 
         let account_id = &self.session.primary_accounts.mail;
         let mut response = self.request(jmap::Request {
-            using: &[jmap::CapabilityKind::Mail],
+            using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
             method_calls: &[jmap::RequestInvocation {
                 call: jmap::MethodCall::MailboxGet {
                     get: jmap::MethodCallGet {
@@ -832,7 +832,7 @@ impl Remote {
                 .collect();
 
             let response = self.request(jmap::Request {
-                using: &[jmap::CapabilityKind::Mail],
+                using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
                 method_calls: &method_calls,
                 created_ids: None,
             })?;
@@ -867,7 +867,7 @@ impl Remote {
 
         let account_id = &self.session.primary_accounts.mail;
         let mut response = self.request(jmap::Request {
-            using: &[jmap::CapabilityKind::Submission],
+            using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Submission],
             method_calls: &[jmap::RequestInvocation {
                 call: jmap::MethodCall::IdentityGet {
                     get: jmap::MethodCallGet {
@@ -999,7 +999,7 @@ impl Remote {
         for chunk in &updates.into_iter().chunks(chunk_size) {
             let account_id = &self.session.primary_accounts.mail;
             let mut response = self.request(jmap::Request {
-                using: &[jmap::CapabilityKind::Mail],
+                using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
                 method_calls: &[jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailSet {
                         set: jmap::MethodCallSet {
@@ -1078,7 +1078,7 @@ impl Remote {
             .map(|x| jmap::Address { email: x.as_str() })
             .collect();
         let mut response = self.request(jmap::Request {
-            using: &[jmap::CapabilityKind::Mail, jmap::CapabilityKind::Submission],
+            using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail, jmap::CapabilityKind::Submission],
             method_calls: &[
                 jmap::RequestInvocation {
                     call: jmap::MethodCall::EmailImport {
@@ -1187,7 +1187,7 @@ impl Remote {
 
         let account_id = &self.session.primary_accounts.mail;
         let mut response = self.request(jmap::Request {
-            using: &[jmap::CapabilityKind::Mail],
+            using: &[jmap::CapabilityKind::Core, jmap::CapabilityKind::Mail],
             method_calls: &[jmap::RequestInvocation {
                 call: jmap::MethodCall::EmailSet {
                     set: jmap::MethodCallSet {
