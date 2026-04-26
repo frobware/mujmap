@@ -30,7 +30,7 @@
     };
   in {
     packages = forAllSystems (system: {
-      default = pkgsFor.${system}.callPackage ./package.nix { };
+      default = pkgsFor.${system}.callPackage ./package.nix { inherit self; };
     });
 
     devShells = nixpkgs.lib.genAttrs supportedSystems makeDevShellForSystem;

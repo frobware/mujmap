@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { }, self ? ./. }:
 
 let
   manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
@@ -8,7 +8,7 @@ in pkgs.rustPlatform.buildRustPackage {
 
   cargoLock.lockFile = ./Cargo.lock;
 
-  src = ./.;
+  src = self;
 
   propagatedBuildInputs = with pkgs; [
     notmuch
