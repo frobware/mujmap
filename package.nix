@@ -1,12 +1,12 @@
 { pkgs ? import <nixpkgs> { }, self ? ./. }:
 
 let
-  manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
+  manifest = (pkgs.lib.importTOML "${self}/Cargo.toml").package;
 in pkgs.rustPlatform.buildRustPackage {
   pname = manifest.name;
   version = manifest.version;
 
-  cargoLock.lockFile = ./Cargo.lock;
+  cargoLock.lockFile = "${self}/Cargo.lock";
 
   src = self;
 
